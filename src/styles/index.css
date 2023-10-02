@@ -175,7 +175,7 @@ button:hover {
 }
 
 .links ul li {
-  padding: 1rem;
+  padding: 1.2rem;
   width: 100%;
   border-radius: 5px;
   display: flex;
@@ -199,6 +199,10 @@ button:hover {
   margin-left: 2rem;
   cursor: pointer;
   transition: background-color 0.4s;
+}
+.active-copy {
+  background-color: hsl(257, 27%, 26%);
+  padding: 0.4rem 1.05rem;
 }
 /* ---------------------------------STAT COMPONENT */
 .stat {
@@ -336,16 +340,15 @@ footer .icons {
 .icon span:hover {
   color: hsl(180, 66%, 49%);
 }
-.author{
+.author {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: hsl(260, 8%, 14%);;
+  background-color: hsl(260, 8%, 14%);
   color: white;
   margin-bottom: 0;
 }
-
 
 /* ----------------------MEDIA QUERY----------------------------------------------- */
 
@@ -489,15 +492,15 @@ footer .icons {
     padding: 1.5rem;
     margin-top: -6rem;
   }
-  input {
+  input,
+  button {
+    padding: 1rem;
     display: block;
     width: 100%;
+  }
+  input {
     margin: 0;
     margin-bottom: 1rem;
-  }
-  button {
-    display: block;
-    width: 100%;
   }
   .form-p {
     position: absolute;
@@ -542,12 +545,12 @@ footer .icons {
     font-size: 1.8rem;
   }
   .stat .col-4 {
-    width: 95%;
+    width: 100%;
   }
   .stat-2,
   .stat-3,
   .stat-1 {
-    margin: 0%;
+    margin: 0;
     width: 100%;
     margin-bottom: 5rem;
     text-align: center;
@@ -561,7 +564,7 @@ footer .icons {
     height: 70%;
     background-color: hsl(180, 66%, 49%);
     width: 0.5rem;
-    left: 47%;
+    left: 49%;
     display: block;
     z-index: -1;
   }

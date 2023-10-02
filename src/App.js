@@ -18,7 +18,9 @@ export default function App() {
       <ShortenLink />
       <GetStarted />
       <Footer />
-      <div className="author"><p>Made by Abdullahi Salaudeen❤️</p></div>
+      <div className="author">
+        <p>Made by Abdullahi Salaudeen❤️</p>
+      </div>
     </div>
   );
 }
@@ -74,30 +76,71 @@ function Hero() {
 }
 
 function ShortenLink() {
+  const [links, setLinks] = useState([]);
   return (
     <main className="sec-2">
-      <Form />
-      <Links />
+      <Form setLinks={setLinks} />
+      <Links links={links} />
       <Stat />
     </main>
   );
 }
 
-function Form() {
+function Form({ setLinks }) {
   // `https://api.shrtco.de/v2/shorten?url=${submittedUrl}`
 
   const [longUrl, setLongUrl] = useState("");
-  const [submittedUrl, setSubmittedUrl] = useState("google.com");
-  const [shortUrl, setShortUrl] = useState("");
+  const [submittedUrl, setSubmittedUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [errMsg, setErrMsg] = useState(false);
 
   function handleGetUrl(e) {
     e.preventDefault();
-    if (longUrl.length > 1) {
+    if (longUrl.length > 3) {
       setSubmittedUrl(longUrl);
     }
-
-    setLongUrl("");
   }
+
+  useEffect(
+    function () {
+      async function shortenUrl() {
+        try {
+          setIsLoading(true);
+          const res = await fetch(
+            `https://api.shrtco.de/v2/shorten?url=${submittedUrl}`
+          );
+          if (!res.ok) {
+            throw new Error("Enter a valid URL");
+          }
+          const data = await res.json();
+          console.log(data);
+          //create new list
+          const li = {
+            url: submittedUrl,
+            shortUrl: data.result.full_short_link,
+            id: data.result.code,
+          };
+          setLinks((link) => [...link, li]);
+          setErrorMessage(null);
+        } catch (err) {
+          setErrorMessage(err.message);
+          //set and reset error msg after 3seconds
+          setErrMsg(true);
+          setTimeout(() => {
+            setErrMsg(false);
+          }, 3000);
+        } finally {
+          setIsLoading(false);
+          setLongUrl("");
+          setSubmittedUrl("");
+        }
+      }
+      if (submittedUrl.length > 3) shortenUrl();
+    },
+    [submittedUrl]
+  );
+
   return (
     <div className="form-sec">
       <form onSubmit={handleGetUrl}>
@@ -105,24 +148,26 @@ function Form() {
           value={longUrl}
           onChange={(e) => setLongUrl(e.target.value)}
           placeholder="Shorten a link here..."
+          disabled={isLoading}
         />
         <button>Shorten It!</button>
-        {/* <p className="form-p">
-            <i>please add a link</i>
-            display conditionally
-          </p> */}
+        {errMsg && (
+          <p className="form-p">
+            <i>{errorMessage}</i>
+          </p>
+        )}
       </form>
     </div>
   );
 }
 
-function Links() {
-  const link = [
-    { url: "example.com", shortUrl: "short.com", id: 1 },
-    { url: "example.com", shortUrl: "short.com", id: 2 },
-    { url: "example.com", shortUrl: "short.com", id: 3 },
-  ];
-  const [links, setLinks] = useState(link);
+function Links({ links }) {
+  // const [copied, setCopied] = useState(false);
+
+  function handleCopy(url) {
+    //copy text to clipboard
+    navigator.clipboard.writeText(url);
+  }
   return (
     <div className="links">
       <ul>
@@ -131,7 +176,9 @@ function Links() {
             <span className="link">{link.url}</span>
             <span>
               <span className="shorten">{link.shortUrl}</span>
-              <span className="copy">copy</span>
+              <span className="copy" onClick={() => handleCopy(link.shortUrl)}>
+                copy
+              </span>
             </span>
           </li>
         ))}
@@ -258,8 +305,6 @@ function Footer() {
           </p>
         </div>
       </div>
-      
     </footer>
-
   );
 }
