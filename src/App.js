@@ -88,7 +88,6 @@ function ShortenLink() {
 
 function Form({ setLinks }) {
   // `https://api.shrtco.de/v2/shorten?url=${submittedUrl}`
-
   const [longUrl, setLongUrl] = useState("");
   const [submittedUrl, setSubmittedUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -162,8 +161,6 @@ function Form({ setLinks }) {
 }
 
 function Links({ links }) {
-  // const [copied, setCopied] = useState(false);
-
   function handleCopy(url) {
     //copy text to clipboard
     navigator.clipboard.writeText(url);
