@@ -120,7 +120,7 @@ function Form({ setLinks }) {
             shortUrl: data.result.full_short_link,
             id: data.result.code,
           };
-          setLinks((link) => [...link, li]);
+          setLinks((link) => [li, ...link]);
           setErrorMessage(null);
         } catch (err) {
           setErrorMessage(err.message);
