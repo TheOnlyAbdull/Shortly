@@ -204,6 +204,10 @@ button:hover {
   background-color: hsl(257, 27%, 26%);
   padding: 0.4rem 1.05rem;
 }
+.del{
+  cursor: pointer;
+  padding-left: 1rem;
+}
 /* ---------------------------------STAT COMPONENT */
 .stat {
   text-align: center;
@@ -515,6 +519,7 @@ footer .icons {
   }
   .links ul li {
     display: block;
+    position: relative;
   }
   .link,
   .shorten,
@@ -533,6 +538,11 @@ footer .icons {
     margin-left: 0;
     text-align: center;
     padding: 0.5rem 1.8rem;
+  }
+  .del{
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
   }
   /* STATISTICS */
   .stat {

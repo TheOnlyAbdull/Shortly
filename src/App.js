@@ -76,11 +76,22 @@ function Hero() {
 }
 
 function ShortenLink() {
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState(function () {
+    const storedValue = localStorage.getItem("link");
+    const approved = storedValue ? JSON.parse(storedValue) : [];
+    return approved;
+  });
+
+  useEffect(
+    function () {
+      localStorage.setItem("link", JSON.stringify(links));
+    },
+    [links]
+  );
   return (
     <main className="sec-2">
       <Form setLinks={setLinks} />
-      <Links links={links} />
+      <Links links={links} setLinks={setLinks} />
       <Stat />
     </main>
   );
@@ -160,10 +171,13 @@ function Form({ setLinks }) {
   );
 }
 
-function Links({ links }) {
+function Links({ links, setLinks }) {
   function handleCopy(url) {
     //copy text to clipboard
     navigator.clipboard.writeText(url);
+  }
+  function handleDelete(id) {
+    setLinks((link) => link.filter((li) => li.id !== id));
   }
   return (
     <div className="links">
@@ -175,6 +189,9 @@ function Links({ links }) {
               <span className="shorten">{link.shortUrl}</span>
               <span className="copy" onClick={() => handleCopy(link.shortUrl)}>
                 copy
+              </span>
+              <span className="del" onClick={() => handleDelete(link.id)}>
+                ❌
               </span>
             </span>
           </li>
