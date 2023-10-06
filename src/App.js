@@ -127,7 +127,7 @@ function Form({ setLinks }) {
           //create new list
           const li = {
             url: submittedUrl,
-            shortUrl: data.result.full_short_link,
+            shortUrl: data.result.short_link,
             id: data.result.code,
           };
           setLinks((link) => [li, ...link]);
