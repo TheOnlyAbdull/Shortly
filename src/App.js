@@ -78,8 +78,7 @@ function Hero() {
 function ShortenLink() {
   const [links, setLinks] = useState(function () {
     const storedValue = localStorage.getItem("link");
-    const approved = storedValue ? JSON.parse(storedValue) : [];
-    return approved;
+    return storedValue ? JSON.parse(storedValue) : [];
   });
 
   useEffect(
@@ -148,7 +147,7 @@ function Form({ setLinks }) {
       }
       if (submittedUrl.length > 3) shortenUrl();
     },
-    [submittedUrl]
+    [submittedUrl, setLinks]
   );
 
   return (
